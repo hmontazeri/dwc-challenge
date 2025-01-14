@@ -1,15 +1,14 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import CalculationHistory from '#models/calculation_history'
 import CO2Emission from '#models/co_2_emissions'
+import { calculateCO2EmissionValidator } from '#validators/calculate_co_2_emission'
 
 export default class CO2EmissionController {
   public async calculate({ request, response }: HttpContext) {
-    const { distance, distanceUnit, transportMethod, outputUnit } = request.only([
-      'distance',
-      'distanceUnit',
-      'transportMethod',
-      'outputUnit',
-    ])
+    // Validate the request data
+    const payload = await request.validateUsing(calculateCO2EmissionValidator)
+
+    const { distance, distanceUnit, transportMethod, outputUnit } = payload
 
     const emissionData = await CO2Emission.findBy('transportMethod', transportMethod)
     if (!emissionData) {

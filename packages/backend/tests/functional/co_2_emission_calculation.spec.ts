@@ -41,4 +41,47 @@ test.group('CO2 Emission Calculation', (group) => {
     assert.equal(response.body().co2Emission, 27) // 1000 * 27 / 1000 = 27 kg
     assert.equal(response.body().unit, 'kg')
   })
+  test('should handle distance in meters and convert to kilometers', async ({ client, assert }) => {
+    const response = await client.post('/api/v1/co2-emissions/calculate').json({
+      distance: 5000, // 5000 meters = 5 km
+      distanceUnit: 'm',
+      transportMethod: 'train',
+      outputUnit: 'g',
+    })
+
+    response.assertStatus(200)
+    assert.equal(response.body().co2Emission, 30) // 5 km * 6 g/km = 30 g
+    assert.equal(response.body().unit, 'g')
+  })
+
+  test('should return 422 for missing required fields', async ({ client }) => {
+    const response = await client.post('/api/v1/co2-emissions/calculate').json({
+      distance: 100,
+      distanceUnit: 'km',
+    })
+
+    response.assertStatus(422)
+  })
+
+  test('should return 422 for invalid distance unit', async ({ client }) => {
+    const response = await client.post('/api/v1/co2-emissions/calculate').json({
+      distance: 100,
+      distanceUnit: 'invalid-unit',
+      transportMethod: 'small-diesel-car',
+      outputUnit: 'g',
+    })
+
+    response.assertStatus(422)
+  })
+
+  test('should return 422 for invalid output unit', async ({ client }) => {
+    const response = await client.post('/api/v1/co2-emissions/calculate').json({
+      distance: 100,
+      distanceUnit: 'km',
+      transportMethod: 'small-diesel-car',
+      outputUnit: 'invalid-unit',
+    })
+
+    response.assertStatus(422)
+  })
 })
