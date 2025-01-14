@@ -1,0 +1,11 @@
+{
+  "name": "dwc-challenge",
+  "version": "1.0.0",
+  "description": "Code challenge for DWC",
+  "author": "hamed.mon@gmail.com",
+  "scripts": {
+    "dev": "pnpm --parallel dev",
+    "dev:backend": "pnpm --filter @dwc-challenge/backend dev",
+    "dev:frontend": "pnpm --filter @dwc-challenge/frontend dev"
+  }
+}
