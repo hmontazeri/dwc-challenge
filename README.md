@@ -2,6 +2,8 @@
 
 This application provides an API to calculate CO2 emissions for different transportation methods based on a given distance. It also includes a frontend to interact with the backend API. Below, you'll find instructions on how to set up and run the application using Docker Compose and how to set up a development environment for making changes to the code.
 
+This project uses a **monorepo** structure to manage both the backend and frontend within a single repository. The package manager **pnpm** is used to handle dependencies efficiently across the monorepo.
+
 ---
 
 ## Table of Contents
@@ -21,7 +23,7 @@ This application provides an API to calculate CO2 emissions for different transp
 ### Steps:
 1. Clone the repository:
    ```bash
-   git clone git@github.com:hmontazeri/dwc-challenge.git
+   git clone <repository-url>
    cd dwc-challenge
    ```
 
@@ -44,64 +46,51 @@ This application provides an API to calculate CO2 emissions for different transp
 
 ## 2. Setting Up the Development Environment
 
+This project uses **pnpm** to manage dependencies in the monorepo. Follow the steps below to get the development environment running.
+
 ### Prerequisites:
 - **Node.js** (v20+)
 - **PostgreSQL** (local or Docker)
-- **npm** (for package management)
+- **pnpm** (for monorepo dependency management)
+
+### Install `pnpm` Globally:
+If `pnpm` is not already installed, install it globally:
+```bash
+npm install -g pnpm
+```
 
 ### Steps:
 
-#### Backend:
-1. Navigate to the backend directory:
+#### Install Dependencies:
+1. Navigate to the root directory of the monorepo:
    ```bash
-   cd packages/backend
+   cd dwc-challenge
    ```
 
-2. Install dependencies:
+2. Install all dependencies for both the frontend and backend:
    ```bash
-   npm install
+   pnpm install
    ```
 
-3. Set up the environment variables:
+#### Start the Development Environment:
+1. Start both the backend and frontend together:
    ```bash
-   cp .env.example .env
+   pnpm dev
    ```
 
-4. Run database migrations and seed data:
-   ```bash
-   node ace migration:run
-   node ace db:seed
-   ```
+This command will concurrently start:
+- The **backend** on [http://localhost:3333](http://localhost:3333)
+- The **frontend** on [http://localhost:3000](http://localhost:3000)
 
-5. Start the backend server:
-   ```bash
-   npm run dev
-   ```
-
-The backend will run on [http://localhost:3333](http://localhost:3333).
-
-#### Frontend:
-1. Navigate to the frontend directory:
-   ```bash
-   cd packages/frontend
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Set up the environment variables:
-   ```bash
-   cp .env.example .env
-   ```
-
-4. Start the frontend development server:
-   ```bash
-   npm run dev
-   ```
-
-The frontend will run on [http://localhost:3000](http://localhost:3000).
+### Backend-Specific Tasks:
+- **Run Migrations**:
+  ```bash
+  pnpm backend migration:run
+  ```
+- **Seed Data**:
+  ```bash
+  pnpm backend db:seed
+  ```
 
 ---
 
@@ -118,6 +107,7 @@ The frontend will run on [http://localhost:3000](http://localhost:3000).
 ### Other Tools:
 - **Docker Compose**: Simplifies multi-container orchestration.
 - **VineJS**: For schema validation in AdonisJS.
+- **pnpm**: Efficiently manages dependencies in a monorepo setup, saving disk space and improving performance.
 
 These technologies were chosen to ensure the application is scalable, maintainable, and developer-friendly.
 
