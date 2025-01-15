@@ -23,7 +23,7 @@ This project uses a **monorepo** structure to manage both the backend and fronte
 ### Steps:
 1. Clone the repository:
    ```bash
-   git clone git@github.com:hmontazeri/dwc-challenge.git
+   git clone https://github.com/hmontazeri/dwc-challenge
    cd dwc-challenge
    ```
 
@@ -80,7 +80,7 @@ npm install -g pnpm
 
 This command will concurrently start:
 - The **backend** on [http://localhost:3333](http://localhost:3333)
-- The **frontend** on [http://localhost:3000](http://localhost:5173)
+- The **frontend** on [http://localhost:5173](http://localhost:5173)
 
 ### Backend-Specific Tasks:
 - **Navigate to backend folder**
