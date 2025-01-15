@@ -20,7 +20,7 @@ COPY . .
 RUN pnpm run build
 
 # Stage 2: Serve the Remix app
-FROM node:20-alpine AS runner
+FROM node:20 AS runner
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -42,4 +42,4 @@ RUN pnpm install --prod
 EXPOSE 3000
 
 # Start the Remix app
-CMD ["pnpm", "run", "start"]
+CMD ["npx", "remix-serve", "build/server/index.js"]

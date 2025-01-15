@@ -20,7 +20,7 @@ COPY . .
 RUN pnpm run build
 
 # Stage 2: Create a lightweight production image
-FROM node:20-alpine AS runner
+FROM node:20 AS runner
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -41,4 +41,5 @@ RUN pnpm install --prod
 EXPOSE 3333
 
 # Start the AdonisJS server
-CMD ["node", "build/bin/server.js"]
+# CMD ["node", "build/bin/server.js"]
+CMD ["sh", "-c", "node build/ace migration:run --force && node build/ace db:seed && node build/bin/server.js"]

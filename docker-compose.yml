@@ -16,37 +16,42 @@ services:
       context: ./packages/backend
       dockerfile: Dockerfile
     container_name: backend-service
+    restart: always
     ports:
       - "3333:3333"
     environment:
-      PORT: 3333
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 6667
-      DATABASE_USER: myuser
-      DATABASE_PASSWORD: mypassword
-      DATABASE_NAME: mydatabase
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_DATABASE: mydatabase
+      APP_KEY: SnHFsJYukzt_KNon5PQWCcVCAMjsPLjP
       NODE_ENV: production
-      APP_KEY: mysecret
-      LOG_LEVEL: info
+      HOST: backend-service
+      LOG_LEVEL: debug
+      PORT: 3333
     depends_on:
       - postgres
     volumes:
       - ./packages/backend:/app
+      - /app/node_modules
 
   frontend:
     build:
       context: ./packages/frontend
       dockerfile: Dockerfile
     container_name: frontend-service
+    restart: always
     ports:
       - "3000:3000"
     environment:
       NODE_ENV: production
-      API_URL: http://backend-service:3333/api
+      API_BASE_URL: http://backend-service:3333
     depends_on:
       - backend
     volumes:
       - ./packages/frontend:/app
+      - /app/node_modules
 
 volumes:
   postgres-data:

@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "pnpm --parallel dev",
     "dev:backend": "pnpm --filter @dwc-challenge/backend dev",
-    "dev:frontend": "pnpm --filter @dwc-challenge/frontend dev"
+    "dev:frontend": "pnpm --filter @dwc-challenge/frontend dev",
+    "build": "pnpm --parallel build",
+    "build:backend": "pnpm --filter @dwc-challenge/backend build",
+    "build:frontend": "pnpm --filter @dwc-challenge/frontend build"
   }
 }

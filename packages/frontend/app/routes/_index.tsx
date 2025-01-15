@@ -1,5 +1,4 @@
 import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { z } from "zod";
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { Button } from "../components/ui/button";
 import { Form } from "@remix-run/react";
@@ -22,11 +21,20 @@ export const meta: MetaFunction = () => {
 
 // get the list of all available transport methods
 export async function loader() {
-  const response = await fetch(
-    `${process.env.API_BASE_URL}/api/v1/co2-emissions/transport-methods`
-  );
-  const transportMethods = await response.json();
-  return Response.json(transportMethods);
+  try {
+    const response = await fetch(
+      `${process.env.API_BASE_URL}/api/v1/co2-emissions/transport-methods`
+    );
+    if (response.ok) {
+      const transportMethods = await response.json();
+      return Response.json(transportMethods);
+    } else {
+      return Response.json([]);
+    }
+  } catch (error) {
+    console.error(error);
+    return Response.json([]);
+  }
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -36,7 +44,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const distanceUnit = formData.get("distanceUnit");
   const outputUnit = formData.get("outputUnit");
 
-  // call caluclate endpoint
+  // call calculate endpoint
   const response = await fetch(
     `${process.env.API_BASE_URL}/api/v1/co2-emissions/calculate`,
     {
@@ -60,7 +68,7 @@ const distanceUnits = ["m", "km"];
 const outputUnits = ["g", "kg"];
 
 export default function Index() {
-  const data = useLoaderData<string[]>();
+  const data = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
   const [transportMethod, setTransportMethod] = useState("");
   const [distance, setDistance] = useState(0);
@@ -126,7 +134,7 @@ export default function Index() {
                 <SelectValue placeholder="Select a transport method" />
               </SelectTrigger>
               <SelectContent>
-                {data.map((item) => (
+                {data.map((item: string) => (
                   <SelectItem key={item} value={item}>
                     {item}
                   </SelectItem>
@@ -141,7 +149,7 @@ export default function Index() {
                 <SelectValue placeholder="Select distance unit" />
               </SelectTrigger>
               <SelectContent>
-                {distanceUnits.map((item) => (
+                {distanceUnits.map((item: string) => (
                   <SelectItem key={item} value={item}>
                     {item}
                   </SelectItem>
@@ -156,7 +164,7 @@ export default function Index() {
                 <SelectValue placeholder="Select output unit" />
               </SelectTrigger>
               <SelectContent>
-                {outputUnits.map((item) => (
+                {outputUnits.map((item: string) => (
                   <SelectItem key={item} value={item}>
                     {item}
                   </SelectItem>
