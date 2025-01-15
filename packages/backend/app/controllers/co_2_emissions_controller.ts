@@ -4,6 +4,20 @@ import CO2Emission from '#models/co_2_emissions'
 import { calculateCO2EmissionValidator } from '#validators/calculate_co_2_emission'
 
 export default class CO2EmissionController {
+  /**
+   * Get the list of all available transport methods
+   * @returns List of transport methods
+   *
+   */
+  public async transportMethods({ response }: HttpContext) {
+    const transportMethods = await CO2Emission.query().select('transportMethod')
+    return response.json(transportMethods.map((item) => item.transportMethod))
+  }
+
+  /**
+   * Calculate the CO2 emission for the given transport method
+   * @returns CO2 emission in grams or kilograms
+   */
   public async calculate({ request, response }: HttpContext) {
     // Validate the request data
     const payload = await request.validateUsing(calculateCO2EmissionValidator)
@@ -25,6 +39,10 @@ export default class CO2EmissionController {
     const co2Emission = emissionData.co2PerKm * distanceInKm
     const result = outputUnit === 'kg' ? co2Emission / 1000 : co2Emission
 
+    console.log(
+      `Calculating CO2 emission for ${transportMethod} with distance ${distance} ${distanceUnit} in ${outputUnit} result: ${result}`
+    )
+
     // Save the calculation history
     await CalculationHistory.create({
       distance,
@@ -34,6 +52,6 @@ export default class CO2EmissionController {
       outputUnit,
     })
 
-    return response.json({ co2Emission: result, unit: outputUnit })
+    return response.json({ co2Emission: result, unit: outputUnit, distance, transportMethod })
   }
 }

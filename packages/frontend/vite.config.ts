@@ -21,13 +21,4 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://localhost:3333", // Backend server (AdonisJS) URL
-        changeOrigin: true, // Ensures the host header is modified
-        rewrite: (path) => path.replace(/^\/api/, ""), // Remove '/api' prefix
-      },
-    },
-  },
 });
