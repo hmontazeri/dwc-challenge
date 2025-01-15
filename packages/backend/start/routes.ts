@@ -17,6 +17,10 @@ router
       `/${API_VERSION}/co2-emissions/transport-methods`,
       '#controllers/co_2_emissions_controller.transportMethods'
     )
+    router.get(
+      `/${API_VERSION}/co2-emissions/history`,
+      '#controllers/co_2_emissions_controller.history'
+    )
     router.post(
       `/${API_VERSION}/co2-emissions/calculate`,
       '#controllers/co_2_emissions_controller.calculate'

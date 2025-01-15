@@ -15,6 +15,15 @@ export default class CO2EmissionController {
   }
 
   /**
+   * Get the list of all previous calculations
+   * @returns List of previous calculations
+   */
+  public async history({ response }: HttpContext) {
+    const history = await CalculationHistory.query().orderBy('created_at', 'desc')
+    return response.json(history)
+  }
+
+  /**
    * Calculate the CO2 emission for the given transport method
    * @returns CO2 emission in grams or kilograms
    */

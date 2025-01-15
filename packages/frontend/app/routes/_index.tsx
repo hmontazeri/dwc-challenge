@@ -91,7 +91,7 @@ export default function Index() {
       </h1>
       {actionData && (
         <div className="max-w-md w-full bg-gray-50 flex flex-col gap-4 border border-gray-100 p-8 rounded-lg">
-          <h2 className="text-2xl text-center">Results</h2>
+          <h2 className="text-2xl">Result</h2>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <span className="text-xs uppercase text-gray-500">
@@ -186,7 +186,7 @@ export default function Index() {
                 disabled={formDisabled}>
                 Calculate CO²
               </Button>
-              <Link to="/history" className="underline">
+              <Link to="/history" className="underline uppercase">
                 History
               </Link>
             </div>
