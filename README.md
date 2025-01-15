@@ -80,16 +80,24 @@ npm install -g pnpm
 
 This command will concurrently start:
 - The **backend** on [http://localhost:3333](http://localhost:3333)
-- The **frontend** on [http://localhost:3000](http://localhost:3000)
+- The **frontend** on [http://localhost:3000](http://localhost:5173)
 
 ### Backend-Specific Tasks:
+- **Navigate to backend folder**
+  ```bash 
+   cd packages/backend
+   ```
 - **Run Migrations**:
   ```bash
-  pnpm backend migration:run
+  node ace migration:run 
   ```
 - **Seed Data**:
   ```bash
-  pnpm backend db:seed
+  node ace db:seed     
+  ```
+- **Test (optional)**:
+  ```bash
+  node ace test     
   ```
 
 ---
