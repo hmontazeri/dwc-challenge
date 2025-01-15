@@ -1,23 +1,29 @@
 # Stage 1: Install dependencies and build the app
 FROM node:20 AS builder
 
+# Install pnpm
+RUN npm install -g pnpm
+
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to install dependencies
+# Copy package.json and to install dependencies
 COPY package.json ./
 
 # Install dependencies
-RUN npm install
+RUN pnpm install
 
 # Copy the rest of the backend source code
 COPY . .
 
 # Build the backend (optional, depending on your setup)
-RUN npm run build
+RUN pnpm run build
 
 # Stage 2: Create a lightweight production image
 FROM node:20-alpine AS runner
+
+# Install pnpm
+RUN npm install -g pnpm
 
 # Set the working directory
 WORKDIR /app
@@ -25,9 +31,11 @@ WORKDIR /app
 # Copy only necessary files from the builder stage
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/node_modules ./node_modules
 
 # Install only production dependencies
-RUN npm install --production
+RUN pnpm install --prod
 
 # Expose the port your backend runs on (adjust if necessary)
 EXPOSE 3333
