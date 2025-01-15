@@ -23,7 +23,7 @@ This project uses a **monorepo** structure to manage both the backend and fronte
 ### Steps:
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:hmontazeri/dwc-challenge.git
    cd dwc-challenge
    ```
 
