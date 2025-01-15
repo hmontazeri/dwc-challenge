@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { Link, useActionData, useLoaderData } from "@remix-run/react";
 import { Button } from "../components/ui/button";
 import { Form } from "@remix-run/react";
 import {
@@ -86,7 +86,7 @@ export default function Index() {
 
   return (
     <div className="flex flex-col space-y-14 h-screen items-center lg:justify-center px-5 py-10">
-      <h1 className="lg:text-6xl text-5xl text-center tracking-tighter">
+      <h1 className="text-black lg:text-6xl text-5xl text-center tracking-tight">
         CO² Emission Calculator
       </h1>
       {actionData && (
@@ -179,13 +179,17 @@ export default function Index() {
               placeholder="Enter distance"
               onChange={(e) => setDistance(Number(e.target.value))}
             />
-
-            <Button
-              type="submit"
-              className="self-start mt-5"
-              disabled={formDisabled}>
-              Calculate CO²
-            </Button>
+            <div className="flex flex-row justify-between items-center  mt-5">
+              <Button
+                type="submit"
+                className="self-start"
+                disabled={formDisabled}>
+                Calculate CO²
+              </Button>
+              <Link to="/history" className="underline">
+                History
+              </Link>
+            </div>
           </Form>
         </div>
       )}
