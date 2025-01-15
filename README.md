@@ -27,7 +27,7 @@ This application provides an API to calculate CO2 emissions for different transp
 
 2. Start the application using Docker Compose:
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
 3. The following services will be started:
@@ -37,7 +37,7 @@ This application provides an API to calculate CO2 emissions for different transp
 
 4. To stop the application, run:
    ```bash
-   docker-compose down
+   docker compose down -v
    ```
 
 ---
