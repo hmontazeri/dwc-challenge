@@ -20,7 +20,7 @@ COPY . .
 RUN pnpm run build
 
 # Stage 2: Create a lightweight production image
-FROM node:20 AS runner
+FROM node:20-alpine AS runner
 
 # Install pnpm
 RUN npm install -g pnpm

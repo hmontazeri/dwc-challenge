@@ -20,7 +20,7 @@ COPY . .
 RUN pnpm run build
 
 # Stage 2: Serve the Remix app
-FROM node:20 AS runner
+FROM node:20-alpine AS runner
 
 # Install pnpm
 RUN npm install -g pnpm
