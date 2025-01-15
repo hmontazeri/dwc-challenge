@@ -42,4 +42,4 @@ RUN pnpm install --prod
 EXPOSE 3000
 
 # Start the Remix app
-CMD ["npx", "remix-serve", "build/server/index.js"]
+CMD ["npm", "run", "start"]
