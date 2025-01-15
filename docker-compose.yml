@@ -34,7 +34,8 @@ services:
       - postgres
     volumes:
       - ./packages/backend:/app
-      - /app/node_modules
+      - /usr/src/app/node_modules
+
 
   frontend:
     build:
@@ -51,7 +52,8 @@ services:
       - backend
     volumes:
       - ./packages/frontend:/app
-      - /app/node_modules
+      - /usr/src/app/node_modules
+
 
 volumes:
   postgres-data:
