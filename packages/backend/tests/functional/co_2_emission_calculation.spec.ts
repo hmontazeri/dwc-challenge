@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
 
-test.group('CO2 Emission Calculation', (group) => {
+test.group('CO2 Emission Calculation', () => {
   test('should calculate CO2 emissions for a valid transport method', async ({
     client,
     assert,

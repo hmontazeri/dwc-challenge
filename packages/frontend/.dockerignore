@@ -1,0 +1,39 @@
+# Node.js modules
+node_modules
+npm-debug.log
+yarn.lock
+pnpm-lock.yaml
+# Logs
+*.log
+logs
+debug.log
+*.pid
+*.seed
+*.pid.lock
+
+# Build output
+/build
+/public/build
+
+# Local environment files
+.env
+.env.*.local
+
+# Docker-related files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Temporary files and directories
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+*.swp
+*.swo
+*.bak
+*.tmp
+*.old
+tmp/
+dist/
+coverage/
