@@ -131,9 +131,3 @@ These technologies were chosen to ensure the application is scalable, maintainab
 | Docker Setup                      | X hours        | Y hours     |
 | Testing and Debugging             | X hours        | Y hours     |
 | Documentation and Cleanup         | X hours        | Y hours     |
-
-*(Replace `X` and `Y` with actual values after completion.)*
-
----
-
-Let me know if any part of this README needs further clarification or adjustments! 🚀
