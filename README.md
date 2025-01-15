@@ -21,7 +21,7 @@ This application provides an API to calculate CO2 emissions for different transp
 ### Steps:
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:hmontazeri/dwc-challenge.git
    cd dwc-challenge
    ```
 
