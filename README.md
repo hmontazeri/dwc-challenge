@@ -18,21 +18,26 @@ This project uses a **monorepo** structure to manage both the backend and fronte
 ## 1. Using Docker Compose to Set Up the App
 
 ### Prerequisites:
+
 - Ensure that **Docker** and **Docker Compose** are installed on your system.
 
 ### Steps:
+
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/hmontazeri/dwc-challenge
    cd dwc-challenge
    ```
 
 2. Start the application using Docker Compose:
+
    ```bash
    docker compose up --build
    ```
 
 3. The following services will be started:
+
    - **PostgreSQL** (Database): Accessible internally by the backend.
    - **Backend API**: Runs on [http://localhost:3333](http://localhost:3333).
    - **Frontend**: Runs on [http://localhost:3000](http://localhost:3000).
@@ -49,12 +54,15 @@ This project uses a **monorepo** structure to manage both the backend and fronte
 This project uses **pnpm** to manage dependencies in the monorepo. Follow the steps below to get the development environment running.
 
 ### Prerequisites:
+
 - **Node.js** (v20+)
 - **PostgreSQL** (local or Docker)
 - **pnpm** (for monorepo dependency management)
 
 ### Install `pnpm` Globally:
+
 If `pnpm` is not already installed, install it globally:
+
 ```bash
 npm install -g pnpm
 ```
@@ -62,7 +70,9 @@ npm install -g pnpm
 ### Steps:
 
 #### Install Dependencies:
+
 1. Navigate to the root directory of the monorepo:
+
    ```bash
    cd dwc-challenge
    ```
@@ -73,31 +83,34 @@ npm install -g pnpm
    ```
 
 #### Start the Development Environment:
+
 1. Start both the backend and frontend together:
    ```bash
    pnpm dev
    ```
 
 This command will concurrently start:
+
 - The **backend** on [http://localhost:3333](http://localhost:3333)
 - The **frontend** on [http://localhost:5173](http://localhost:5173)
 
 ### Backend-Specific Tasks:
+
 - **Navigate to backend folder**
-  ```bash 
+  ```bash
    cd packages/backend
-   ```
+  ```
 - **Run Migrations**:
   ```bash
-  node ace migration:run 
+  node ace migration:run
   ```
 - **Seed Data**:
   ```bash
-  node ace db:seed     
+  node ace db:seed
   ```
 - **Test (optional)**:
   ```bash
-  node ace test     
+  node ace test
   ```
 
 ---
@@ -105,14 +118,18 @@ This command will concurrently start:
 ## 3. Technology Choices
 
 ### Backend:
+
 - **AdonisJS**: Chosen for its full-stack MVC capabilities, built-in TypeScript support, and elegant syntax.
 - **PostgreSQL**: A robust, open-source relational database known for reliability and scalability.
 - **Docker**: Used for containerizing services to ensure consistency across environments.
 
 ### Frontend:
+
 - **RemixJS**: Selected for its ability to optimize both client and server-side rendering, improving performance and user experience.
+- **Shadcn UI**: Utilized for building accessible and customizable React UI components.
 
 ### Other Tools:
+
 - **Docker Compose**: Simplifies multi-container orchestration.
 - **VineJS**: For schema validation in AdonisJS.
 - **pnpm**: Efficiently manages dependencies in a monorepo setup, saving disk space and improving performance.
@@ -123,11 +140,11 @@ These technologies were chosen to ensure the application is scalable, maintainab
 
 ## 4. Estimated vs. Actual Time Spent
 
-| Task                              | Estimated Time | Actual Time |
-|-----------------------------------|----------------|-------------|
-| Initial Project Setup             | 0.5 hours      | 0.5 hours   |
-| Backend API Development           | 3 hours        | 1.5 hours   |
-| Frontend Development              | 3 hours        | 2 hours     |
-| Docker Setup                      | 1 hours        | 6 hours     |
-| Testing and Debugging             | 1 hours        | 1 hours     |
-| Documentation and Cleanup         | 1 hours        | 1 hours     |
+| Task                      | Estimated Time | Actual Time |
+| ------------------------- | -------------- | ----------- |
+| Initial Project Setup     | 0.5 hours      | 0.5 hours   |
+| Backend API Development   | 3 hours        | 1.5 hours   |
+| Frontend Development      | 3 hours        | 2 hours     |
+| Docker Setup              | 1 hours        | 6 hours     |
+| Testing and Debugging     | 1 hours        | 1 hours     |
+| Documentation and Cleanup | 1 hours        | 1 hours     |

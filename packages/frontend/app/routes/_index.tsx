@@ -11,6 +11,8 @@ import {
 } from '../components/ui/select';
 import { Input } from '../components/ui/input';
 import { useEffect, useState } from 'react';
+import { Card } from '../components/ui/card';
+import { Label } from '../components/ui/label';
 
 export const meta: MetaFunction = () => {
   return [
@@ -45,21 +47,18 @@ export async function action({ request }: ActionFunctionArgs) {
   const outputUnit = formData.get('outputUnit');
 
   // call calculate endpoint
-  const response = await fetch(
-    `${process.env.API_BASE_URL}/api/v1/co2-emissions/calculate`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        transportMethod,
-        distance,
-        distanceUnit,
-        outputUnit,
-      }),
+  const response = await fetch(`${process.env.API_BASE_URL}/api/v1/co2-emissions/calculate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify({
+      transportMethod,
+      distance,
+      distanceUnit,
+      outputUnit,
+    }),
+  });
   const resJson = await response.json();
   return Response.json(resJson);
 }
@@ -94,9 +93,7 @@ export default function Index() {
           <h2 className="text-2xl">Result</h2>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
-              <span className="text-xs uppercase text-gray-500">
-                CO² Emission
-              </span>
+              <span className="text-xs uppercase text-gray-500">CO² Emission</span>
               <span className="font-semibold">
                 {actionData.co2Emission} {outputUnit}
               </span>
@@ -108,16 +105,14 @@ export default function Index() {
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-xs uppercase text-gray-500">
-                Transport Method
-              </span>
-              <span className="font-semibold">
-                {actionData.transportMethod}
-              </span>
+              <span className="text-xs uppercase text-gray-500">Transport Method</span>
+              <span className="font-semibold">{actionData.transportMethod}</span>
             </div>
             <Button
               className="self-start mt-5"
-              onClick={() => window.location.reload()}
+              onClick={() => {
+                window.location.reload();
+              }}
             >
               Make another calculation
             </Button>
@@ -125,71 +120,75 @@ export default function Index() {
         </div>
       )}
       {!actionData && (
-        <div className="break-all max-w-md w-full bg-gray-50 flex flex-col gap-16 border border-gray-100 p-8 rounded-lg">
+        <Card className="max-w-md w-full flex flex-col gap-4 p-8 ">
           <Form method="post" className="flex flex-col gap-4">
-            <Select
-              name="transportMethod"
-              required
-              onValueChange={(value) => setTransportMethod(value)}
-            >
-              <SelectTrigger className="bg-white">
-                <SelectValue placeholder="Select a transport method" />
-              </SelectTrigger>
-              <SelectContent>
-                {data.map((item: string) => (
-                  <SelectItem key={item} value={item}>
-                    {item}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select
-              name="distanceUnit"
-              required
-              onValueChange={(value) => setDistanceUnit(value)}
-            >
-              <SelectTrigger className="bg-white">
-                <SelectValue placeholder="Select distance unit" />
-              </SelectTrigger>
-              <SelectContent>
-                {distanceUnits.map((item: string) => (
-                  <SelectItem key={item} value={item}>
-                    {item}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select
-              name="outputUnit"
-              required
-              onValueChange={(value) => setOutputUnit(value)}
-            >
-              <SelectTrigger className="bg-white">
-                <SelectValue placeholder="Select output unit" />
-              </SelectTrigger>
-              <SelectContent>
-                {outputUnits.map((item: string) => (
-                  <SelectItem key={item} value={item}>
-                    {item}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Input
-              className="bg-white"
-              type="number"
-              name="distance"
-              required
-              placeholder="Enter distance"
-              min={0}
-              onChange={(e) => setDistance(Number(e.target.value))}
-            />
-            <div className="flex flex-row justify-between items-center  mt-5">
-              <Button
-                type="submit"
-                className="self-start"
-                disabled={formDisabled}
+            <div>
+              <Label>Transport Method</Label>
+              <Select
+                name="transportMethod"
+                required
+                onValueChange={(value) => setTransportMethod(value)}
               >
+                <SelectTrigger className="bg-white">
+                  <SelectValue placeholder="Select a transport method" />
+                </SelectTrigger>
+                <SelectContent>
+                  {data.map((item: string) => (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Distance Unit</Label>
+              <Select
+                name="distanceUnit"
+                required
+                onValueChange={(value) => setDistanceUnit(value)}
+              >
+                <SelectTrigger className="bg-white">
+                  <SelectValue placeholder="Select distance unit" />
+                </SelectTrigger>
+                <SelectContent>
+                  {distanceUnits.map((item: string) => (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Output Unit</Label>
+              <Select name="outputUnit" required onValueChange={(value) => setOutputUnit(value)}>
+                <SelectTrigger className="bg-white">
+                  <SelectValue placeholder="Select output unit" />
+                </SelectTrigger>
+                <SelectContent>
+                  {outputUnits.map((item: string) => (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Distance</Label>
+              <Input
+                className="bg-white"
+                type="number"
+                name="distance"
+                required
+                placeholder="Enter distance"
+                min={0}
+                onChange={(e) => setDistance(Number(e.target.value))}
+              />
+            </div>
+            <div className="flex flex-row justify-between items-center  mt-5">
+              <Button type="submit" className="self-start" disabled={formDisabled}>
                 Calculate CO²
               </Button>
               <Link to="/history" className="underline uppercase">
@@ -197,7 +196,7 @@ export default function Index() {
               </Link>
             </div>
           </Form>
-        </div>
+        </Card>
       )}
     </div>
   );

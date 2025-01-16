@@ -12,9 +12,7 @@ import {
 // get TableHeade list of all available TableRowansport meTableHeadods
 export async function loader() {
   try {
-    const response = await fetch(
-      `${process.env.API_BASE_URL}/api/v1/co2-emissions/history`,
-    );
+    const response = await fetch(`${process.env.API_BASE_URL}/api/v1/co2-emissions/history`);
     if (response.ok) {
       const history = await response.json();
       return Response.json(history);
@@ -32,6 +30,7 @@ type CO2Emission = {
   distance: number;
   distanceUnit: string;
   co2Emission: number;
+  transportMethod: string;
   outputUnit: string;
   createdAt: string;
 };
@@ -40,16 +39,13 @@ export default function History() {
   const history = useLoaderData<typeof loader>();
   return (
     <div className="flex flex-col space-y-14 h-screen items-center lg:justify-center px-5 py-10">
-      <h1 className="lg:text-6xl text-5xl text-center tracking-tight">
-        History
-      </h1>
+      <h1 className="lg:text-6xl text-5xl text-center tracking-tight">History</h1>
       <div className="flex flex-col space-y-4 max-w-screen-md w-full">
         <Table className="w-full">
-          <TableCaption>
-            A list of all the CO2 emissions calculated
-          </TableCaption>
+          <TableCaption>A list of all the CO2 emissions calculated</TableCaption>
           <TableHeader>
             <TableRow>
+              <TableHead>Transport Method</TableHead>
               <TableHead>Distance</TableHead>
               <TableHead>Distance Unit</TableHead>
               <TableHead>CO2 Emission</TableHead>
@@ -60,13 +56,12 @@ export default function History() {
           <TableBody>
             {history.map((item: CO2Emission) => (
               <TableRow key={item.id}>
+                <TableCell>{item.transportMethod}</TableCell>
                 <TableCell>{item.distance}</TableCell>
                 <TableCell>{item.distanceUnit}</TableCell>
                 <TableCell>{item.co2Emission}</TableCell>
                 <TableCell>{item.outputUnit}</TableCell>
-                <TableCell>
-                  {new Date(item.createdAt).toLocaleString()}
-                </TableCell>
+                <TableCell>{new Date(item.createdAt).toLocaleString()}</TableCell>
               </TableRow>
             ))}
           </TableBody>
