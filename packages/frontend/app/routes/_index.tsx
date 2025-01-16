@@ -1,21 +1,21 @@
-import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { Link, useActionData, useLoaderData } from "@remix-run/react";
-import { Button } from "../components/ui/button";
-import { Form } from "@remix-run/react";
+import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
+import { Link, useActionData, useLoaderData } from '@remix-run/react';
+import { Button } from '../components/ui/button';
+import { Form } from '@remix-run/react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../components/ui/select";
-import { Input } from "../components/ui/input";
-import { useEffect, useState } from "react";
+} from '../components/ui/select';
+import { Input } from '../components/ui/input';
+import { useEffect, useState } from 'react';
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "CO² Emission Calculator" },
-    { name: "description", content: "DWC Code Challenge" },
+    { title: 'CO² Emission Calculator' },
+    { name: 'description', content: 'DWC Code Challenge' },
   ];
 };
 
@@ -23,7 +23,7 @@ export const meta: MetaFunction = () => {
 export async function loader() {
   try {
     const response = await fetch(
-      `${process.env.API_BASE_URL}/api/v1/co2-emissions/transport-methods`
+      `${process.env.API_BASE_URL}/api/v1/co2-emissions/transport-methods`,
     );
     if (response.ok) {
       const transportMethods = await response.json();
@@ -39,18 +39,18 @@ export async function loader() {
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const transportMethod = formData.get("transportMethod");
-  const distance = Number(formData.get("distance"));
-  const distanceUnit = formData.get("distanceUnit");
-  const outputUnit = formData.get("outputUnit");
+  const transportMethod = formData.get('transportMethod');
+  const distance = Number(formData.get('distance'));
+  const distanceUnit = formData.get('distanceUnit');
+  const outputUnit = formData.get('outputUnit');
 
   // call calculate endpoint
   const response = await fetch(
     `${process.env.API_BASE_URL}/api/v1/co2-emissions/calculate`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         transportMethod,
@@ -58,22 +58,22 @@ export async function action({ request }: ActionFunctionArgs) {
         distanceUnit,
         outputUnit,
       }),
-    }
+    },
   );
   const resJson = await response.json();
   return Response.json(resJson);
 }
 
-const distanceUnits = ["m", "km"];
-const outputUnits = ["g", "kg"];
+const distanceUnits = ['m', 'km'];
+const outputUnits = ['g', 'kg'];
 
 export default function Index() {
   const data = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-  const [transportMethod, setTransportMethod] = useState("");
+  const [transportMethod, setTransportMethod] = useState('');
   const [distance, setDistance] = useState(0);
-  const [distanceUnit, setDistanceUnit] = useState("");
-  const [outputUnit, setOutputUnit] = useState("");
+  const [distanceUnit, setDistanceUnit] = useState('');
+  const [outputUnit, setOutputUnit] = useState('');
   const [formDisabled, setFormDisabled] = useState(true);
 
   useEffect(() => {
@@ -117,7 +117,8 @@ export default function Index() {
             </div>
             <Button
               className="self-start mt-5"
-              onClick={() => window.location.reload()}>
+              onClick={() => window.location.reload()}
+            >
               Make another calculation
             </Button>
           </div>
@@ -129,7 +130,8 @@ export default function Index() {
             <Select
               name="transportMethod"
               required
-              onValueChange={(value) => setTransportMethod(value)}>
+              onValueChange={(value) => setTransportMethod(value)}
+            >
               <SelectTrigger className="bg-white">
                 <SelectValue placeholder="Select a transport method" />
               </SelectTrigger>
@@ -144,7 +146,8 @@ export default function Index() {
             <Select
               name="distanceUnit"
               required
-              onValueChange={(value) => setDistanceUnit(value)}>
+              onValueChange={(value) => setDistanceUnit(value)}
+            >
               <SelectTrigger className="bg-white">
                 <SelectValue placeholder="Select distance unit" />
               </SelectTrigger>
@@ -159,7 +162,8 @@ export default function Index() {
             <Select
               name="outputUnit"
               required
-              onValueChange={(value) => setOutputUnit(value)}>
+              onValueChange={(value) => setOutputUnit(value)}
+            >
               <SelectTrigger className="bg-white">
                 <SelectValue placeholder="Select output unit" />
               </SelectTrigger>
@@ -184,7 +188,8 @@ export default function Index() {
               <Button
                 type="submit"
                 className="self-start"
-                disabled={formDisabled}>
+                disabled={formDisabled}
+              >
                 Calculate CO²
               </Button>
               <Link to="/history" className="underline uppercase">
