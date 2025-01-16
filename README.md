@@ -125,9 +125,9 @@ These technologies were chosen to ensure the application is scalable, maintainab
 
 | Task                              | Estimated Time | Actual Time |
 |-----------------------------------|----------------|-------------|
-| Initial Project Setup             | X hours        | Y hours     |
-| Backend API Development           | X hours        | Y hours     |
-| Frontend Development              | X hours        | Y hours     |
-| Docker Setup                      | X hours        | Y hours     |
-| Testing and Debugging             | X hours        | Y hours     |
-| Documentation and Cleanup         | X hours        | Y hours     |
+| Initial Project Setup             | 0.5 hours      | 0.5 hours   |
+| Backend API Development           | 3 hours        | 1.5 hours   |
+| Frontend Development              | 3 hours        | 2 hours     |
+| Docker Setup                      | 1 hours        | 6 hours     |
+| Testing and Debugging             | 1 hours        | 1 hours     |
+| Documentation and Cleanup         | 1 hours        | 1 hours     |

@@ -177,6 +177,7 @@ export default function Index() {
               name="distance"
               required
               placeholder="Enter distance"
+              min={0}
               onChange={(e) => setDistance(Number(e.target.value))}
             />
             <div className="flex flex-row justify-between items-center  mt-5">
