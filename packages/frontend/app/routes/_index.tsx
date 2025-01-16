@@ -89,7 +89,7 @@ export default function Index() {
         CO² Emission Calculator
       </h1>
       {actionData && (
-        <div className="max-w-md w-full bg-gray-50 flex flex-col gap-4 border border-gray-100 p-8 rounded-lg">
+        <Card className="max-w-md w-full flex flex-col gap-4 p-8 ">
           <h2 className="text-2xl">Result</h2>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
@@ -117,7 +117,7 @@ export default function Index() {
               Make another calculation
             </Button>
           </div>
-        </div>
+        </Card>
       )}
       {!actionData && (
         <Card className="max-w-md w-full flex flex-col gap-4 p-8 ">

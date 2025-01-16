@@ -127,6 +127,7 @@ This command will concurrently start:
 
 - **RemixJS**: Selected for its ability to optimize both client and server-side rendering, improving performance and user experience.
 - **Shadcn UI**: Utilized for building accessible and customizable React UI components.
+- **TailwindCSS**: A utility-first CSS framework that provides low-level utility classes to build custom designs without leaving your HTML. It was chosen for its flexibility and ease of use in creating responsive and modern UI components.
 
 ### Other Tools:
 
