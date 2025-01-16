@@ -2,10 +2,12 @@ import type { HttpContext } from '@adonisjs/core/http'
 import CalculationHistory from '#models/calculation_history'
 import CO2Emission from '#models/co_2_emissions'
 import { calculateCO2EmissionValidator } from '#validators/calculate_co_2_emission'
+import { co2EmissionValidator } from '#validators/co_2_emission'
 
 export default class CO2EmissionController {
   /**
    * Get the list of all available transport methods
+   * * @param {HttpContext} ctx - The HTTP context
    * @returns List of transport methods
    *
    */
@@ -15,7 +17,65 @@ export default class CO2EmissionController {
   }
 
   /**
+   * Create a new transport method
+   * @param {HttpContext} ctx - The HTTP context
+   * @returns {Promise<void>}
+   */
+  public async createTransportMethod({ request, response }: HttpContext) {
+    const { transportMethod, co2PerKm } = await request.validateUsing(co2EmissionValidator)
+    const newTransportMethod = await CO2Emission.create({ transportMethod, co2PerKm })
+    return response.status(201).json(newTransportMethod)
+  }
+
+  /**
+   * Get a specific transport method by ID
+   * @param {HttpContext} ctx - The HTTP context
+   * @returns {Promise<void>}
+   */
+  public async getTransportMethod({ params, response }: HttpContext) {
+    const transportMethod = await CO2Emission.find(params.id)
+    if (!transportMethod) {
+      return response.status(404).json({ message: 'Transport method not found' })
+    }
+    return response.json(transportMethod)
+  }
+
+  /**
+   * Update a specific transport method by ID
+   * @param {HttpContext} ctx - The HTTP context
+   * @returns {Promise<void>}
+   */
+  public async updateTransportMethod({ params, request, response }: HttpContext) {
+    const transportMethod = await CO2Emission.find(params.id)
+    if (!transportMethod) {
+      return response.status(404).json({ message: 'Transport method not found' })
+    }
+    const { transportMethod: newTransportMethod, co2PerKm } = request.only([
+      'transportMethod',
+      'co2PerKm',
+    ])
+    transportMethod.merge({ transportMethod: newTransportMethod, co2PerKm })
+    await transportMethod.save()
+    return response.json(transportMethod)
+  }
+
+  /**
+   * Delete a specific transport method by ID
+   * @param {HttpContext} ctx - The HTTP context
+   * @returns {Promise<void>}
+   */
+  public async deleteTransportMethod({ params, response }: HttpContext) {
+    const transportMethod = await CO2Emission.find(params.id)
+    if (!transportMethod) {
+      return response.status(404).json({ message: 'Transport method not found' })
+    }
+    await transportMethod.delete()
+    return response.status(204).json(null)
+  }
+
+  /**
    * Get the list of all previous calculations
+   * @param {HttpContext} ctx - The HTTP context
    * @returns List of previous calculations
    */
   public async history({ response }: HttpContext) {
@@ -25,6 +85,7 @@ export default class CO2EmissionController {
 
   /**
    * Calculate the CO2 emission for the given transport method
+   * @param {HttpContext} ctx - The HTTP context
    * @returns CO2 emission in grams or kilograms
    */
   public async calculate({ request, response }: HttpContext) {
@@ -53,7 +114,7 @@ export default class CO2EmissionController {
     )
 
     // Save the calculation history
-    await CalculationHistory.create({
+    const calculationHistory = await CalculationHistory.create({
       distance,
       distanceUnit,
       transportMethod,
@@ -61,6 +122,12 @@ export default class CO2EmissionController {
       outputUnit,
     })
 
-    return response.json({ co2Emission: result, unit: outputUnit, distance, transportMethod })
+    return response.json({
+      co2Emission: result,
+      unit: outputUnit,
+      distance,
+      transportMethod,
+      id: calculationHistory.id,
+    })
   }
 }

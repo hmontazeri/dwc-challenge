@@ -1,6 +1,14 @@
 import { test } from '@japa/runner'
+import CalculationHistory from '#models/calculation_history'
 
-test.group('CO2 Emission Calculation', () => {
+test.group('CO2 Emission Calculation', (group) => {
+  let createdIds: number[] = []
+
+  group.each.teardown(async () => {
+    await CalculationHistory.query().whereIn('id', createdIds).delete()
+    createdIds = []
+  })
+
   test('should calculate CO2 emissions for a valid transport method', async ({
     client,
     assert,
@@ -15,6 +23,11 @@ test.group('CO2 Emission Calculation', () => {
     response.assertStatus(200)
     assert.equal(response.body().co2Emission, 14200)
     assert.equal(response.body().unit, 'g')
+
+    const history = await CalculationHistory.findBy('id', response.body().id)
+    if (history) {
+      createdIds.push(history.id)
+    }
   })
 
   test('should return 404 for an invalid transport method', async ({ client }) => {
@@ -40,7 +53,13 @@ test.group('CO2 Emission Calculation', () => {
     response.assertStatus(200)
     assert.equal(response.body().co2Emission, 27) // 1000 * 27 / 1000 = 27 kg
     assert.equal(response.body().unit, 'kg')
+
+    const history = await CalculationHistory.findBy('id', response.body().id)
+    if (history) {
+      createdIds.push(history.id)
+    }
   })
+
   test('should handle distance in meters and convert to kilometers', async ({ client, assert }) => {
     const response = await client.post('/api/v1/co2-emissions/calculate').json({
       distance: 5000, // 5000 meters = 5 km
@@ -52,6 +71,11 @@ test.group('CO2 Emission Calculation', () => {
     response.assertStatus(200)
     assert.equal(response.body().co2Emission, 30) // 5 km * 6 g/km = 30 g
     assert.equal(response.body().unit, 'g')
+
+    const history = await CalculationHistory.findBy('id', response.body().id)
+    if (history) {
+      createdIds.push(history.id)
+    }
   })
 
   test('should return 422 for missing required fields', async ({ client }) => {
